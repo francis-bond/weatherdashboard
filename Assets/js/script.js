@@ -36,38 +36,38 @@ submit.addEventListener("click", function(event){
 });
 
 function getLocation() {
-    
-    var search = input.value;
-
-    localStorage.setItem("search", search)
-    var pastSearches = JSON.parse(localStorage.getItem("pastSearches"));
-    if (pastSearches == null) {
-      pastSearches = [];
-    }
-    if (pastSearches.lenght = 10){
-
-    }
-    pastSearches.unshift(search);
-    localStorage.setItem("pastSearches", JSON.stringify(pastSearches));
-
-
-    title.textContent = search +" "+ today;
-    console.log(search)
-    var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q="+search+"&appid="+ apiKey;
-    console.log(requestUrl)
   
-    fetch(requestUrl)
-      .then(function (response) {
-        console.log(response);
-        return response.json();
-      })
-      .then(function (data) {
-        latitude = data.coord.lat
-        longitude = data.coord.lon
-        console.log("Longitude: " + longitude)
-        console.log("latitude: " + latitude)
-        getApi()
-      });
+  var search = input.value;
+
+  localStorage.setItem("search", search)
+  var pastSearches = JSON.parse(localStorage.getItem("pastSearches"));
+  if (pastSearches == null) {
+    pastSearches = [];
+  }
+  // if (pastSearches.lenght = 10){
+//  set limit on how many past searches you have
+  // }
+  pastSearches.unshift(search);
+  localStorage.setItem("pastSearches", JSON.stringify(pastSearches));
+
+
+  title.textContent = search +" "+ today;
+  console.log(search)
+  var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q="+search+"&appid="+ apiKey;
+  console.log(requestUrl)
+
+  fetch(requestUrl)
+    .then(function (response) {
+      console.log(response);
+      return response.json();
+    })
+    .then(function (data) {
+      latitude = data.coord.lat
+      longitude = data.coord.lon
+      console.log("Longitude: " + longitude)
+      console.log("latitude: " + latitude)
+      getApi()
+    });
 }
 
 function getApi() {
@@ -81,6 +81,21 @@ function getApi() {
       return response.json();
     })
     .then(function (data) {
+      $("#temp").text("Temp: " + Math.floor((data.current.temp - 273.15)* 9 / 5 + 32) + " °F");
+      $("#wind").text("Wind: " + data.current.wind_speed + " MPH")
+      $("#humid").text("Humidity: " + data.current.humidity + "%")
+      $("#uvi").text("UV Index: " + data.current.uvi + "%")
+      if (data.current.uvi < 2){
+        $("#uvi").addClass("bg-success")
+      } else if (data.current.uvi >= 2 && data.current.uvi < 4){
+        $("#uvi").addClass("bg-warning")
+      } else {
+        $("#uvi").addClass("bg-danger")
+      }
       console.log(data)
+
+      for(i = 0 ; 1 < 5 ; i++){
+        
+      }
     });
 }
