@@ -21,18 +21,30 @@ var date1 = moment(today).add(2, "days").format("l")
 var date2 = moment(today).add(3, "days").format("l")
 var date3 = moment(today).add(4, "days").format("l")
 var date4 = moment(today).add(5, "days").format("l")
-
-
 $("#date0").text(date0);
 $("#date1").text(date1);
 $("#date2").text(date2);
 $("#date3").text(date3);
 $("#date4").text(date4);
+var pastSearches = JSON.parse(localStorage.getItem("pastSearches"));
+console.log("Past searches " +pastSearches);
+// add a for loop that looks through array, adds button for each item pastSearches
+// pastSearches.forEach(function(item){
+//   console.log("Items"+ item)
+//   $("#list-group-item").prepend("<button>"+ item +"</button>");
+// })
+// add a function to make past searches button search
+
 
 submit.addEventListener("click", function(event){
   event.preventDefault();
   console.log("Input ", input.value);
   getLocation();
+  $("#list-group-item").html("");
+  pastSearches.forEach(function(item){
+    console.log("Items"+ item)
+    $("#list-group-item").prepend('<li><button type="submit" class="btn btn-secondary text-light my-3" style="width: 100%">'+ item +'</button></li>');
+  })
 });
 
 function getLocation() {
@@ -40,16 +52,15 @@ function getLocation() {
   var search = input.value;
 
   localStorage.setItem("search", search)
-  var pastSearches = JSON.parse(localStorage.getItem("pastSearches"));
   if (pastSearches == null) {
     pastSearches = [];
   }
-  // if (pastSearches.lenght = 10){
-//  set limit on how many past searches you have
-  // }
+  
+  if (pastSearches.length == 8) {
+    pastSearches.pop();
+  }
   pastSearches.unshift(search);
   localStorage.setItem("pastSearches", JSON.stringify(pastSearches));
-
 
   title.textContent = search +" "+ today;
   console.log(search)
@@ -86,16 +97,33 @@ function getApi() {
       $("#humid").text("Humidity: " + data.current.humidity + "%")
       $("#uvi").text("UV Index: " + data.current.uvi + "%")
       if (data.current.uvi < 2){
-        $("#uvi").addClass("bg-success")
-      } else if (data.current.uvi >= 2 && data.current.uvi < 4){
-        $("#uvi").addClass("bg-warning")
+        $("#uvi").addClass("bg-success").removeClass("bg-warning").removeClass("bg-danger")
+      } else if (data.current.uvi > 4){
+        $("#uvi").addClass("bg-danger").removeClass("bg-warning").removeClass("bg-success")
       } else {
-        $("#uvi").addClass("bg-danger")
+        $("#uvi").addClass("bg-warning").removeClass("bg-success").removeClass("bg-danger")
       }
       console.log(data)
 
-      for(i = 0 ; 1 < 5 ; i++){
-        
-      }
+      $("#temp0").text("Temp: " + Math.floor((data.daily[0].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#wind0").text("Wind: " + data.daily[0].wind_speed + " MPH")
+      $("#humid0").text("Humidity: " + data.daily[0].humidity + "%")
+
+      $("#temp1").text("Temp: " + Math.floor((data.daily[1].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#wind1").text("Wind: " + data.daily[1].wind_speed + " MPH")
+      $("#humid1").text("Humidity: " + data.daily[1].humidity + "%")
+
+      $("#temp2").text("Temp: " + Math.floor((data.daily[2].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#wind2").text("Wind: " + data.daily[2].wind_speed + " MPH")
+      $("#humid2").text("Humidity: " + data.daily[2].humidity + "%")
+
+      $("#temp3").text("Temp: " + Math.floor((data.daily[3].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#wind3").text("Wind: " + data.daily[3].wind_speed + " MPH")
+      $("#humid3").text("Humidity: " + data.daily[3].humidity + "%")
+
+      $("#temp4").text("Temp: " + Math.floor((data.daily[4].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#wind4").text("Wind: " + data.daily[4].wind_speed + " MPH")
+      $("#humid4").text("Humidity: " + data.daily[4].humidity + "%")
+      
     });
 }
