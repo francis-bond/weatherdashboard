@@ -28,28 +28,37 @@ $("#date3").text(date3);
 $("#date4").text(date4);
 var pastSearches = JSON.parse(localStorage.getItem("pastSearches"));
 console.log("Past searches " +pastSearches);
-// add a for loop that looks through array, adds button for each item pastSearches
-// pastSearches.forEach(function(item){
-//   console.log("Items"+ item)
-//   $("#list-group-item").prepend("<button>"+ item +"</button>");
-// })
-// add a function to make past searches button search
+
+$("#list-group-item").html("");
+  pastSearches.forEach(function(item){
+    $("#list-group-item").prepend('<li><button type="submit" class="btn btn-secondary text-light my-3 pastSearch" style="width: 100%">'+ item +'</button></li>');
+  })
 
 
 submit.addEventListener("click", function(event){
   event.preventDefault();
   console.log("Input ", input.value);
+  search = input.value;
   getLocation();
   $("#list-group-item").html("");
   pastSearches.forEach(function(item){
-    console.log("Items"+ item)
-    $("#list-group-item").prepend('<li><button type="submit" class="btn btn-secondary text-light my-3" style="width: 100%">'+ item +'</button></li>');
+    $("#list-group-item").prepend('<li><button type="submit" class="btn btn-secondary text-light my-3 pastSearch" style="width: 100%">'+ item +'</button></li>');
   })
 });
 
+document.querySelectorAll(".pastSearch").forEach( item =>{
+  item.addEventListener("click", event1 => {
+    event1.preventDefault();
+    search = item.textContent;
+    getLocation();
+    $("#list-group-item").html("");
+  pastSearches.forEach(function(item){
+    $("#list-group-item").prepend('<li><button type="submit" class="btn btn-secondary text-light my-3 pastSearch" style="width: 100%">'+ item +'</button></li>');
+  })
+})
+})
+
 function getLocation() {
-  
-  var search = input.value;
 
   localStorage.setItem("search", search)
   if (pastSearches == null) {
