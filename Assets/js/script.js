@@ -30,10 +30,11 @@ var pastSearches = JSON.parse(localStorage.getItem("pastSearches"));
 console.log("Past searches " +pastSearches);
 
 $("#list-group-item").html("");
+if(pastSearches !== null){
   pastSearches.forEach(function(item){
     $("#list-group-item").prepend('<li><button type="submit" class="btn btn-secondary text-light my-3 pastSearch" style="width: 100%">'+ item +'</button></li>');
   })
-
+}
 
 submit.addEventListener("click", function(event){
   event.preventDefault();
