@@ -22,6 +22,8 @@ User can input any city they would like, 8 cities are saved to the search histor
 
 When search history buttons are clicked, their information is displayed.
 
+Deployed project link: https://francis-bond.github.io/weatherdashboard/
+
 ## Development
 
 Working with server side APIs has shown me how easily you can can connect you web application to other sources to help make it more interactive.
