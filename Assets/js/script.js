@@ -53,9 +53,11 @@ document.querySelectorAll(".pastSearch").forEach( item =>{
     search = item.textContent;
     getLocation();
     $("#list-group-item").html("");
-  pastSearches.forEach(function(item){
+  if(!pastSearches.includes(item)){ 
+    pastSearches.forEach(function(item){
     $("#list-group-item").prepend('<li><button type="submit" class="btn btn-secondary text-light my-3 pastSearch" style="width: 100%">'+ item +'</button></li>');
-  })
+  }
+  )}
 })
 })
 
@@ -66,10 +68,14 @@ function getLocation() {
     pastSearches = [];
   }
   
-  if (pastSearches.length == 8) {
+  if (pastSearches.length == 5) {
     pastSearches.pop();
   }
+
+  if(!pastSearches.includes(search)){ 
   pastSearches.unshift(search);
+  }
+
   localStorage.setItem("pastSearches", JSON.stringify(pastSearches));
 
   title.textContent = search +" "+ today;
@@ -102,7 +108,7 @@ function getApi() {
       return response.json();
     })
     .then(function (data) {
-      $("#temp").text("Temp: " + Math.floor((data.current.temp - 273.15)* 9 / 5 + 32) + " °F");
+      $("#temp").text("Current Temp: " + Math.floor((data.current.temp - 273.15)* 9 / 5 + 32) + "°F");
       $("#wind").text("Wind: " + data.current.wind_speed + " MPH")
       $("#humid").text("Humidity: " + data.current.humidity + "%")
       $("#uvi").text("UV Index: " + data.current.uvi + "%")
@@ -115,23 +121,23 @@ function getApi() {
       }
       console.log(data)
 
-      $("#temp0").text("Temp: " + Math.floor((data.daily[0].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#temp0").text("Temp: " + Math.floor((data.daily[0].temp.min - 273.15)* 9 / 5 + 32) + "-" + Math.floor((data.daily[0].temp.max - 273.15)* 9 / 5 + 32) + " °F");
       $("#wind0").text("Wind: " + data.daily[0].wind_speed + " MPH")
       $("#humid0").text("Humidity: " + data.daily[0].humidity + "%")
 
-      $("#temp1").text("Temp: " + Math.floor((data.daily[1].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#temp1").text("Temp: " + Math.floor((data.daily[1].temp.min - 273.15)* 9 / 5 + 32) + "-" + Math.floor((data.daily[1].temp.max - 273.15)* 9 / 5 + 32) + " °F");
       $("#wind1").text("Wind: " + data.daily[1].wind_speed + " MPH")
       $("#humid1").text("Humidity: " + data.daily[1].humidity + "%")
 
-      $("#temp2").text("Temp: " + Math.floor((data.daily[2].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#temp2").text("Temp: " + Math.floor((data.daily[2].temp.min - 273.15)* 9 / 5 + 32) + "-" + Math.floor((data.daily[2].temp.max - 273.15)* 9 / 5 + 32) + " °F");
       $("#wind2").text("Wind: " + data.daily[2].wind_speed + " MPH")
       $("#humid2").text("Humidity: " + data.daily[2].humidity + "%")
 
-      $("#temp3").text("Temp: " + Math.floor((data.daily[3].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#temp3").text("Temp: " + Math.floor((data.daily[3].temp.min - 273.15)* 9 / 5 + 32) + "-" + Math.floor((data.daily[3].temp.max - 273.15)* 9 / 5 + 32) + " °F");
       $("#wind3").text("Wind: " + data.daily[3].wind_speed + " MPH")
       $("#humid3").text("Humidity: " + data.daily[3].humidity + "%")
 
-      $("#temp4").text("Temp: " + Math.floor((data.daily[4].temp.day - 273.15)* 9 / 5 + 32) + " °F");
+      $("#temp4").text("Temp: " + Math.floor((data.daily[4].temp.min - 273.15)* 9 / 5 + 32) + "-" + Math.floor((data.daily[4].temp.max - 273.15)* 9 / 5 + 32) + " °F");
       $("#wind4").text("Wind: " + data.daily[4].wind_speed + " MPH")
       $("#humid4").text("Humidity: " + data.daily[4].humidity + "%")
       
