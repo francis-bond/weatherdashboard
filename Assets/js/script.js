@@ -49,11 +49,12 @@ submit.addEventListener("click", function(event){
 
 document.querySelectorAll(".pastSearch").forEach( item =>{
   item.addEventListener("click", event1 => {
+    console.log(item.textContent)
     event1.preventDefault();
     search = item.textContent;
     getLocation();
     $("#list-group-item").html("");
-  if(!pastSearches.includes(item)){ 
+  if(!pastSearches.includes(item.textContent)){ 
     pastSearches.forEach(function(item){
     $("#list-group-item").prepend('<li><button type="submit" class="btn btn-secondary text-light my-3 pastSearch" style="width: 100%">'+ item +'</button></li>');
   }
@@ -68,12 +69,12 @@ function getLocation() {
     pastSearches = [];
   }
   
-  if (pastSearches.length == 5) {
-    pastSearches.pop();
+  if (pastSearches.length >= 5) {
+    pastSearches.shift();
   }
 
   if(!pastSearches.includes(search)){ 
-  pastSearches.unshift(search);
+  pastSearches.push(search);
   }
 
   localStorage.setItem("pastSearches", JSON.stringify(pastSearches));
